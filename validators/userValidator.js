@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const validationMiddleware = require("../middleWares/middleWareValidation");
 const { check } = require("express-validator");
-const { models } = require("../config/database");
+const { models } = require("../configDb/database");
 const ApiError = require("../utils/apiError");
 
 exports.createUserValidation = [

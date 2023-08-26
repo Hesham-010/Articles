@@ -1,6 +1,6 @@
 const Comment = require("../models/commentModel");
 const asyncHandlers = require("express-async-handler");
-const { models } = require("../config/database");
+const { models } = require("../configDb/database");
 
 // Create Comment
 // route       POST  api/comments/

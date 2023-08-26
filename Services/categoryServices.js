@@ -1,6 +1,6 @@
 const asyncHandlers = require("express-async-handler");
 const Category = require("../models/categoryModel");
-const { models } = require("../config/database");
+const { models } = require("../configDb/database");
 
 // Create category
 // route       POST  api/categories/

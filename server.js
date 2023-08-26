@@ -1,9 +1,9 @@
 const express = require("express");
-const sequelize = require("./config/database");
+const sequelize = require("./configDb/database");
 const dotenv = require("dotenv");
 dotenv.config({ path: "config.env" });
 const { routes } = require("./routes/index");
-const { applyRelations } = require("./config/applyRelations");
+const { applyRelations } = require("./configDb/applyRelations");
 
 // Models
 const modelsModefiers = [

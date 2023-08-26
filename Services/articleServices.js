@@ -1,6 +1,6 @@
 const Article = require("../models/articleModel");
 const asyncHandlers = require("express-async-handler");
-const { models } = require("../config/database");
+const { models } = require("../configDb/database");
 
 // Create Article
 // route       POST  api/articles/

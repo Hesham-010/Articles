@@ -1,4 +1,4 @@
-const { models } = require("../config/database");
+const { models } = require("../configDb/database");
 const User = require("../models/userModel");
 const asyncHandlers = require("express-async-handler");
 const bcrypt = require("bcryptjs");

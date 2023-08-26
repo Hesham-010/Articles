@@ -1,6 +1,6 @@
 const { check } = require("express-validator");
 const validationMiddleware = require("../middleWares/middleWareValidation");
-const { models } = require("../config/database");
+const { models } = require("../configDb/database");
 
 exports.signupValidation = [
   check("name")
