@@ -1,16 +1,15 @@
-const { models } = require("../configDb/database");
-const User = require("../models/userModel");
-const asyncHandlers = require("express-async-handler");
-const bcrypt = require("bcryptjs");
-const ApiError = require("../utils/apiError");
-const { uploadUserImage } = require("../middleWares/uploadImageMiddleware");
-const sharp = require("sharp");
+import models from "../configDb/database";
+import  asyncHandlers from "express-async-handler";
+import bcrypt from "bcryptjs";
+import uploadImage from  "../middleWares/uploadImageMiddleware";
+import sharp from "sharp";
+import { Request, Response, nextFunction } from 'express'
 
 // upload user imadge
-exports.uploadUserImage = uploadUserImage("image");
+export const uploadUserImage = uploadImage("image");
 
 // resize user imadge
-exports.resizeUserImage = asyncHandlers(async (req, res, next) => {
+export const resizeUserImage = asyncHandlers(async (req: Request, res: Response, next:nextFunction) => {
   const filename = `${req.body.name}_${Date.now()}.jpeg`;
   if (req.file) {
     await sharp(req.file.buffer)
@@ -26,7 +25,7 @@ exports.resizeUserImage = asyncHandlers(async (req, res, next) => {
 // get users
 // route       POST  api/users/
 // private     Admin
-exports.createOne = asyncHandlers(async (req, res, next) => {
+export const createOne = asyncHandlers(async (req: Request, res: Response, next:nextFunction) => {
   req.body.password = await bcrypt.hash(req.body.password, 12);
   const document = await models.User.create(req.body);
   res.status(201).json({ data: document });
@@ -35,7 +34,7 @@ exports.createOne = asyncHandlers(async (req, res, next) => {
 // get users
 // route       GET  api/users/
 // private     Admin
-exports.getUsers = asyncHandlers(async (req, res, next) => {
+export const getUsers = asyncHandlers(async (req: Request, res: Response, next:nextFunction) => {
   const document = await models.User.findAll();
   res.status(201).json({ data: document });
 });
@@ -43,7 +42,7 @@ exports.getUsers = asyncHandlers(async (req, res, next) => {
 // create user
 // route       GET  api/users/:id
 // private     Admin
-exports.getUser = asyncHandlers(async (req, res, next) => {
+export const getUser = asyncHandlers(async (req: Request, res: Response, next:nextFunction) => {
   const document = await models.User.findByPk(req.params.id);
   res.status(200).json({ data: document });
 });
@@ -51,7 +50,7 @@ exports.getUser = asyncHandlers(async (req, res, next) => {
 // Update user
 // route       PUT  api/users/:id
 // private     Admin
-exports.updateUser = asyncHandlers(async (req, res, next) => {
+export const updateUser = asyncHandlers(async (req: Request, res: Response, next:nextFunction) => {
   await models.User.update(
     {
       name: req.body.name,
@@ -69,7 +68,7 @@ exports.updateUser = asyncHandlers(async (req, res, next) => {
 // Delete user
 // route       DELETE  api/users/:id
 // private     Admin
-exports.deleteUser = asyncHandlers(async (req, res, next) => {
+export const deleteUser = asyncHandlers(async (req: Request, res: Response, next:nextFunction) => {
   await models.User.destroy({ where: { id: req.params.id } });
   res.status(200).json({ status: "Success" });
 });
@@ -77,10 +76,10 @@ exports.deleteUser = asyncHandlers(async (req, res, next) => {
 // Get Logged User Data
 // route       GET api/users/getMe
 // public     User -Admin
-exports.getMyData = asyncHandlers(async (req, res, next) => {
+export const getMyData = asyncHandlers(async (req: Request, res: Response, next:nextFunction) => {
   const user = await models.User.findByPk(req.user.id);
   if (!user) {
-    next(new ApiError("There is no user for this id", 400));
+    next(new Error("There is no user for this id"));
   }
   res.status(201).json({ status: "Success", data: user });
 });
@@ -88,7 +87,7 @@ exports.getMyData = asyncHandlers(async (req, res, next) => {
 // Update Logged User Data
 // route       PUT api/users/updateMe
 // public     User - admin
-exports.updateMyData = asyncHandlers(async (req, res, next) => {
+export const updateMyData = asyncHandlers(async (req: Request, res: Response, next:nextFunction) => {
   await models.User.update(
     {
       name: req.body.name,
@@ -106,7 +105,7 @@ exports.updateMyData = asyncHandlers(async (req, res, next) => {
 // Delete Logged User
 // route       PUT api/users/updateMe
 // public     User - admin
-exports.deleteMe = asyncHandlers(async (req, res, next) => {
+export const deleteMe = asyncHandlers(async (req: Request, res: Response, next:nextFunction) => {
   await models.User.destroy({ where: { id: req.user.id } });
   res.status(201).json({ status: "Success" });
 });
@@ -114,7 +113,7 @@ exports.deleteMe = asyncHandlers(async (req, res, next) => {
 // Change Logged User Password
 // route       PUT api/users/updateMe
 // public     User - admin
-exports.changeMyPassword = asyncHandlers(async (req, res, next) => {
+export const changeMyPassword = asyncHandlers(async (req: Request, res: Response, next:nextFunction) => {
   const newPassword = await bcrypt.hash(req.body.password, 12);
   console.log(newPassword);
   await models.User.update(

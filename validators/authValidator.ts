@@ -1,8 +1,8 @@
-const { check } = require("express-validator");
-const validationMiddleware = require("../middleWares/middleWareValidation");
-const { models } = require("../configDb/database");
+import { check } from "express-validator";
+import validationMiddleware from "../middleWares/middleWareValidation";
+import models from "../configDb/database";
 
-exports.signupValidation = [
+export const signupValidation = [
   check("name")
     .notEmpty()
     .withMessage("name required")
@@ -45,7 +45,7 @@ exports.signupValidation = [
   validationMiddleware,
 ];
 
-exports.loginValidator = [
+export const loginValidator = [
   check("email").isEmail().notEmpty().withMessage("email required"),
   check("password")
     .notEmpty()
@@ -54,12 +54,12 @@ exports.loginValidator = [
   validationMiddleware,
 ];
 
-exports.forgetPasswordValidator = [
+export const forgetPasswordValidator = [
   check("email").isEmail().notEmpty().withMessage("email required"),
   validationMiddleware,
 ];
 
-exports.resetPasswordValidator = [
+export const resetPasswordValidator = [
   check("email").isEmail().notEmpty().withMessage("email required"),
   validationMiddleware,
 ];

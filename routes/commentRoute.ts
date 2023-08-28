@@ -1,15 +1,15 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const {
+import {
   getComments,
   getComment,
   createComment,
   updateComment,
   deleteComment,
-} = require("../Services/commentServices");
+} from "../Services/commentServices";
 
 router.route("/").get(getComments).post(createComment);
 router.route("/:id").get(getComment).put(updateComment).delete(deleteComment);
 
-module.exports = router;
+export default router;

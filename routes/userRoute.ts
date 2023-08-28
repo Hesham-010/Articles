@@ -1,12 +1,12 @@
-const express = require("express");
+import express  from "express";
 const router = express.Router();
-const authServices = require("../Services/authServices");
-const {
+import {protect,allowTo} from "../Services/authServices";
+import {
   createUserValidation,
   updateUserValidation,
   changeMyPasswordValidation,
-} = require("../validators/userValidator");
-const {
+} from "../validators/userValidator";
+import {
   getUsers,
   getUser,
   deleteUser,
@@ -18,9 +18,9 @@ const {
   changeMyPassword,
   uploadUserImage,
   resizeUserImage,
-} = require("../Services/userServices");
+} from "../Services/userServices";
 
-router.use(authServices.protect);
+router.use(protect);
 
 // Allow For Logged User
 router.get("/getMe", getMyData);
@@ -29,7 +29,7 @@ router.delete("/deleteMe", deleteMe);
 router.put("/changeMyPassword", changeMyPasswordValidation, changeMyPassword);
 
 // Allow For Admin
-router.use(authServices.allowTo("admin"));
+router.use(allowTo("admin"));
 router
   .route("/")
   .get(getUsers)
@@ -40,4 +40,4 @@ router
   .put(uploadUserImage, resizeUserImage, updateUserValidation, updateUser)
   .delete(deleteUser);
 
-module.exports = router;
+export default router;

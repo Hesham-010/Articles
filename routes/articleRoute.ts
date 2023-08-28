@@ -1,18 +1,18 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const authServices = require("../Services/authServices");
+import {protect,allowTo} from "../Services/authServices";
 
-const {
+import {
   createArticle,
   deleteArticle,
   updateArticle,
   getArticles,
   getArticle,
-} = require("../Services/articleServices");
+} from "../Services/articleServices";
 
-router.use(authServices.protect, authServices.allowTo("user", "admin"));
+router.use(protect,allowTo("user", "admin"));
 
 router.route("/").post(createArticle).get(getArticles);
 router.route("/:id").put(updateArticle).delete(deleteArticle).get(getArticle);
 
-module.exports = router;
+export default router;

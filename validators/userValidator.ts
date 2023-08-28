@@ -1,10 +1,10 @@
-const User = require("../models/userModel");
-const validationMiddleware = require("../middleWares/middleWareValidation");
-const { check } = require("express-validator");
-const { models } = require("../configDb/database");
-const ApiError = require("../utils/apiError");
 
-exports.createUserValidation = [
+import validationMiddleware from "../middleWares/middleWareValidation";
+import { check } from "express-validator";
+import models from "../configDb/database";
+import bcrypt from "bcryptjs"
+
+export const createUserValidation = [
   check("name")
     .notEmpty()
     .withMessage("name required")
@@ -18,10 +18,11 @@ exports.createUserValidation = [
     .notEmpty()
     .withMessage("email required")
     .custom((val) =>
-      models.User.findOne({ where: { email: val } }).then((user) => {
+      models.User.findOne({ where: { email: val } }).then((user: any) => {
         if (user) {
           return Promise.reject(new Error("This email exist"));
         }
+
       })
     ),
 
@@ -47,7 +48,7 @@ exports.createUserValidation = [
   validationMiddleware,
 ];
 
-exports.updateUserValidation = [
+export const updateUserValidation = [
   check("name")
     .notEmpty()
     .withMessage("name required")
@@ -61,7 +62,7 @@ exports.updateUserValidation = [
     .notEmpty()
     .withMessage("email required")
     .custom((val) =>
-      models.User.findOne({ where: { email: val } }).then((user) => {
+      models.User.findOne({ where: { email: val } }).then((user: any) => {
         if (user) {
           return Promise.reject(new Error("This email exist"));
         }
@@ -75,7 +76,7 @@ exports.updateUserValidation = [
   validationMiddleware,
 ];
 
-exports.changeMyPasswordValidation = [
+export const changeMyPasswordValidation = [
   check("currentpassword")
     .notEmpty()
     .isLength({ min: 6 })

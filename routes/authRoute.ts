@@ -1,18 +1,18 @@
-const express = require("express");
+import express from "express";
 
-const {
+import {
   signUp,
   login,
   forgetPassword,
   verifyResetCode,
   resetPassword,
-} = require("../Services/authServices");
-const {
+} from "../Services/authServices";
+import {
   signupValidation,
   loginValidator,
   forgetPasswordValidator,
   resetPasswordValidator,
-} = require("../validators/authValidator");
+} from "../validators/authValidator";
 const router = express.Router();
 
 router.route("/signup").post(signupValidation, signUp);
@@ -21,4 +21,4 @@ router.route("/forgetPassword").post(forgetPasswordValidator, forgetPassword);
 router.route("/verifyResetCode").post(verifyResetCode);
 router.route("/resetPassword").put(resetPasswordValidator, resetPassword);
 
-module.exports = router;
+export default router;

@@ -1,4 +1,4 @@
-function applyRelations(sequelize) {
+export const applyRelations = (sequelize) => {
   const { User, Comment, Category, Article } = sequelize.models;
 
   User.hasMany(Article);
@@ -20,4 +20,4 @@ function applyRelations(sequelize) {
   });
 }
 
-module.exports = { applyRelations };
+export default {applyRelations}

@@ -1,9 +1,9 @@
-const express = require("express");
-const sequelize = require("./configDb/database");
-const dotenv = require("dotenv");
+import { express } from "express";
+import  sequelize  from "./configDb/database";
+import dotenv from "dotenv";
 dotenv.config({ path: "config.env" });
-const { routes } = require("./routes/index");
-const { applyRelations } = require("./configDb/applyRelations");
+import { routes } from "./routes/index";
+import { applyRelations } from "./configDb/applyRelations";
 
 // Models
 const modelsModefiers = [
@@ -12,7 +12,7 @@ const modelsModefiers = [
   require("./models/categoryModel"),
   require("./models/articleModel"),
 ];
-for (model of modelsModefiers) {
+for (let model of modelsModefiers) {
   model(sequelize);
 }
 
@@ -22,9 +22,11 @@ app.use(express.json({ limit: "10kb" }));
 // Routes
 routes(app);
 
+const PORT = process.env.PORT
+
 // Sequielize Relations
 applyRelations(sequelize)
-  .sync()
+  sequelize.sync()
   .then(() => {
     console.log("Successfull Connection");
     app.listen(PORT, () => {
