@@ -47,6 +47,20 @@ export const createUserValidation = [
 ];
 
 export const updateUserValidation = [
+  check("id").custom((val, { req }) =>
+    models.User.findByPk(val).then((user) => {
+      if (!user) {
+        return Promise.reject(new Error(`There is no user with id ${val}`));
+      }
+      if (user.id != req.user.id) {
+        return Promise.reject(
+          new Error(`Your are not allowed to perform this action`)
+        );
+      }
+      return true;
+    })
+  ),
+
   check("name").optional()
     .isLength({ min: 3 })
     .withMessage("Too short User name")

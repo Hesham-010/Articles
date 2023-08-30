@@ -9,16 +9,17 @@ import {
   updateCategory,
   deleteCategory,
 } from "../Services/categoryServices";
+import {createCategoryValidator,updateCategoryValidator} from '../validators/categoryValidator'
 
 router.use('/:categoryId/articles', articleRoute)
 
 router.use(protect)
 
-router.route("/").get(getCategories).post(allowTo('admin'),createCategory);
+router.route("/").get(getCategories).post(allowTo('admin'),createCategoryValidator,createCategory);
 router
   .route("/:id")
   .get(getCategory)
-  .put(allowTo('admin'),updateCategory)
+  .put(allowTo('admin'),updateCategoryValidator,updateCategory)
   .delete(allowTo('admin'),deleteCategory);
 
 export default router;

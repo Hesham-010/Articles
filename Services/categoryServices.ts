@@ -31,7 +31,7 @@ export const getCategory = asyncHandlers(async (req: Request, res: Response, nex
 // Public     Admin
 export const updateCategory = asyncHandlers(async (req: Request, res: Response, next:nextFunction) => {
   const category =await models.Category.update(req.body, { where: { id: req.params.id } });
-  res.status(200).json({ status: "Success",data:category });
+  res.status(200).json({ status: "Success" });
 });
 
 // Delete category
