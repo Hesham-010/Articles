@@ -1,8 +1,7 @@
-
 import validationMiddleware from "../middleWares/middleWareValidation";
 import { check } from "express-validator";
-import models from "../configDb/database";
-import bcrypt from "bcryptjs"
+import { models } from "../configDb/database";
+import bcrypt from "bcryptjs";
 
 export const createUserValidation = [
   check("name")
@@ -22,7 +21,6 @@ export const createUserValidation = [
         if (user) {
           return Promise.reject(new Error("This email exist"));
         }
-
       })
     ),
 
@@ -49,9 +47,7 @@ export const createUserValidation = [
 ];
 
 export const updateUserValidation = [
-  check("name")
-    .notEmpty()
-    .withMessage("name required")
+  check("name").optional()
     .isLength({ min: 3 })
     .withMessage("Too short User name")
     .isLength({ max: 32 })
@@ -59,8 +55,7 @@ export const updateUserValidation = [
 
   check("email")
     .isEmail()
-    .notEmpty()
-    .withMessage("email required")
+    .optional()
     .custom((val) =>
       models.User.findOne({ where: { email: val } }).then((user: any) => {
         if (user) {

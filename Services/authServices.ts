@@ -2,7 +2,7 @@ import createToken from "../utils/createToken";
 import bcrypt from "bcryptjs";
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
-import models from "../configDb/database";
+import {models} from "../configDb/database";
 import crypto from "crypto";
 import sendEmail from "../utils/sendEmail";
 import { Request, Response, nextFunction } from "express";
@@ -148,6 +148,7 @@ export const resetPassword = asyncHandler(
     const user = await models.User.findOne({
       where: { email: req.body.email },
     });
+    
     if (!user) {
       return next(
         new Error(`There is no user with this email ${req.body.email}`)

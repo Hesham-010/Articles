@@ -1,4 +1,4 @@
-import models from "../configDb/database";
+import {models} from "../configDb/database";
 import  asyncHandlers from "express-async-handler";
 import bcrypt from "bcryptjs";
 import uploadImage from  "../middleWares/uploadImageMiddleware";

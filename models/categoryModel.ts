@@ -1,7 +1,8 @@
 import Sequelize from "sequelize";
 import { DataTypes } from "sequelize";
+import { sequelize } from '../configDb/database'
 
-export default (sequelize) => {
+export default () => {
   sequelize.define("Category", {
     id: {
       type: DataTypes.INTEGER,

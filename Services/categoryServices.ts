@@ -1,5 +1,5 @@
 import asyncHandlers from "express-async-handler";
-import models from "../configDb/database";
+import {models} from "../configDb/database";
 import { Request, Response, nextFunction } from 'express'
 
 // Create category
@@ -30,8 +30,8 @@ export const getCategory = asyncHandlers(async (req: Request, res: Response, nex
 // route      PUT  api/categories/id
 // Public     Admin
 export const updateCategory = asyncHandlers(async (req: Request, res: Response, next:nextFunction) => {
-  await models.Category.update(req.body, { where: { id: req.params.id } });
-  res.status(200).json({ status: "Success" });
+  const category =await models.Category.update(req.body, { where: { id: req.params.id } });
+  res.status(200).json({ status: "Success",data:category });
 });
 
 // Delete category

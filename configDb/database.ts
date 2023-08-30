@@ -1,9 +1,8 @@
 const Sequelize = require("sequelize");
 
-const sequelize = new Sequelize("Articles", "postgres", "12345678", {
+export const sequelize = new Sequelize("Articles", "postgres", "12345678", {
   host: "localhost",
   dialect: "postgres",
 });
-const models = sequelize.models
+export const models = sequelize.models
 
-export default models;

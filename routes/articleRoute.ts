@@ -1,18 +1,34 @@
 import express from "express";
-const router = express.Router();
-import {protect,allowTo} from "../Services/authServices";
-
+const router = express.Router({ mergeParams: true });
+import { protect, allowTo } from "../Services/authServices";
+import commentRoute from '../routes/commentRoute';
 import {
   createArticle,
   deleteArticle,
   updateArticle,
   getArticles,
   getArticle,
+  createFilterObj,
+  UserIdandCategoryIdToBodyForCreate,
 } from "../Services/articleServices";
+import {createArticleValidator,updateArticleValidator} from '../validators/articleValidator'
 
-router.use(protect,allowTo("user", "admin"));
+router.use('/:articleId/comments',commentRoute);
 
-router.route("/").post(createArticle).get(getArticles);
-router.route("/:id").put(updateArticle).delete(deleteArticle).get(getArticle);
+router.use(protect);
+
+router
+  .route("/")
+  .post(
+    allowTo("writer", "admin"),
+    UserIdandCategoryIdToBodyForCreate,createArticleValidator,
+    createArticle
+  )
+  .get(createFilterObj, getArticles);
+router
+  .route("/:id")
+  .put(allowTo("writer", "admin"),updateArticleValidator, updateArticle)
+  .delete(allowTo("writer", "admin"), deleteArticle)
+  .get(getArticle);
 
 export default router;

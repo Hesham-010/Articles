@@ -1,7 +1,21 @@
-import Comment from "../models/commentModel";
 import asyncHandlers from "express-async-handler";
-import models from "../configDb/database";
+import {models} from "../configDb/database";
 import { Request, Response, nextFunction } from 'express'
+
+export const UserIdandArticleIdToBodyForCreate = asyncHandlers(async (req: Request, res: Response, next: nextFunction) => {
+  if (!req.body.UserId) req.body.UserId = req.user.id;
+  if (!req.body.ArticleId) req.body.ArticleId = req.params.articleId;
+  next()
+})
+
+export const createFilterObj = asyncHandlers(
+  async (req: Request, res: Response, next: nextFunction) => {
+    let filterObj = {};
+    if (req.params.articleId) filterObj = { ArticleId: req.params.articleId };
+    req.filterObj = filterObj;
+    next();
+  }
+);
 
 // Create Comment
 // route       POST  api/comments/
@@ -14,7 +28,11 @@ export const createComment = asyncHandlers(async (req: Request, res: Response, n
 // get comments
 // route      GET /api/comments
 export const getComments = asyncHandlers(async (req: Request, res: Response, next:nextFunction) => {
-  const comments = await models.Comment.findAll();
+   let filter = {};
+    if (req.filterObj) {
+      filter = req.filterObj;
+    }
+  const comments = await models.Comment.findAll({where:filter});
   res.status(200).json({ data: comments });
 });
 
