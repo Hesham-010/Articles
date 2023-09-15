@@ -1,25 +1,25 @@
 import express from "express";
-import { sequelize } from "./configDb/database";
 import dotenv from "dotenv";
 dotenv.config({ path: "config.env" });
+
+import startApolloServer from "./graphql/apolloServer";
+import { sequelize } from "./database/database";
 import { routes } from "./routes/index";
-import { applyRelations } from "./configDb/applyRelations";
+import { applyRelations } from "./database/applyRelations";
+import resolvers from "./graphql/resolvers";
+import typeDefs from "./graphql/schema";
 
 // Models
-import User from "./models/userModel"
-import Comment from "./models/commentModel"
-import Category from "./models/categoryModel"
-import Article from "./models/articleModel"
+import User from "./models/userModel";
+import Comment from "./models/commentModel";
+import Category from "./models/categoryModel";
+import Article from "./models/articleModel";
 
-const models = [User, Comment, Category, Article]
+const models = [User, Comment, Category, Article];
 
 for (let model of models) {
-   model();
+  model();
 }
-// User()
-// Comment()
-// Category()
-// Article()
 
 const app = express();
 app.use(express.json({ limit: "10kb" }));
@@ -43,3 +43,6 @@ sequelize
   .catch((err) => {
     console.log(err);
   });
+
+
+startApolloServer(app,typeDefs, resolvers)

@@ -1,6 +1,6 @@
 import { check } from "express-validator";
 import validationMiddleware from "../middleWares/middleWareValidation";
-import { models } from "../configDb/database";
+import { models } from "../database/database";
 
 export const createCategoryValidator = [
   check("title")

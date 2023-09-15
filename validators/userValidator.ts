@@ -1,6 +1,6 @@
 import validationMiddleware from "../middleWares/middleWareValidation";
 import { check } from "express-validator";
-import { models } from "../configDb/database";
+import { models } from "../database/database";
 import bcrypt from "bcryptjs";
 
 export const createUserValidation = [

@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 import { DataTypes } from "sequelize";
-import { sequelize } from '../configDb/database'
+import { sequelize } from '../database/database'
 
 export default () => {
   sequelize.define("User", {
