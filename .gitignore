@@ -1,4 +1,4 @@
 node_modules
 uploads
-config
+config.env
 dist
